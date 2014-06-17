@@ -19,26 +19,33 @@
 
     FeedViewController *rvc = [[FeedViewController alloc]init];
     rvc.title = @"News Feed";
+    rvc.tabBarItem.image = [UIImage imageNamed:@"nb-newsfeed-off.png"];
     
     //set feed view controller as root of uinav controller
     UINavigationController *feedNav = [[UINavigationController alloc]initWithRootViewController:rvc];
     
     DummyViewController *requests = [[DummyViewController  alloc] init];
     requests.title = @"Requests";
+    requests.tabBarItem.image = [UIImage imageNamed:@"nb-request-off.png"];
     
     DummyViewController *messages = [[DummyViewController  alloc] init];
     messages.title = @"Messages";
+    messages.tabBarItem.image = [UIImage imageNamed:@"comment-off.png"];
     
     DummyViewController *notifications = [[DummyViewController  alloc] init];
     notifications.title = @"Notifications";
+    notifications.tabBarItem.image = [UIImage imageNamed:@"nb-notifications-off.png"];
     
     DummyViewController *more = [[DummyViewController  alloc] init];
     more.title = @"More";
+    more.tabBarItem.image = [UIImage imageNamed:@"nb-more-off.png"];
     
     // Create the tab bar controller
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers = @[feedNav, requests, messages, notifications, more];
     self.window.rootViewController = tabBarController;
+    
+    
 
     //color of status bar text
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -47,7 +54,7 @@
     [self.window makeKeyAndVisible];
     
     [[UINavigationBar appearance]
-     setBarTintColor:[UIColor colorWithRed:0.2039 green:0.3569 blue:0.5843 alpha:1.0000]];  
+     setBarTintColor:[UIColor colorWithRed:0.2059 green:0.3589 blue:0.5883 alpha:1.0000]];
 
     NSDictionary *titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor],
                                           NSFontAttributeName: [UIFont boldSystemFontOfSize:14]};

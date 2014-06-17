@@ -43,9 +43,18 @@
     [super viewDidLoad];
     //rounds corners of login box
     self.loginViewBox.layer.cornerRadius = 4;
-    self.logInButton.enabled = NO;
+    self.logInButton.enabled = NO; //initializes login button as disabled
 
     // Do any additional setup after loading the view from its nib.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -68,11 +77,14 @@
         self.logInButton.selected = YES;
         self.logInButton.enabled = NO;
         [self.activityIndicator startAnimating];
+        UIImage *image = [UIImage imageNamed: @"loggingin_button.png"];
+        [self.logInButton setImage:image forState:UIControlStateDisabled];
+        
         // This will run "continueWithLogin" after a 3 second delay.
         [self performSelector:@selector(continueWithLogin) withObject:nil afterDelay:3];
     }
     else
-        [self showPasswordAlert];
+        [self showPasswordAlert];//wrong password alert
         }
         
 - (void)showPasswordAlert{
@@ -80,7 +92,7 @@
           [alertView show];
 }
 
-
+//stops progress indicator and dismisses login view
 - (void)continueWithLogin{
     [self.activityIndicator stopAnimating];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -122,6 +134,7 @@
     
 }
 
+//constantly checks password
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     // check if valid and update button
     [self updateValues];
@@ -132,6 +145,33 @@
     [self onLogInButton:nil];
     return YES;
 }
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    // the keyboard is hiding reset the table's height
+    NSTimeInterval animationDuration =
+    [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    CGRect frame = self.view.frame;
+    frame.origin.y += 60;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = frame;
+    [UIView commitAnimations];
+}
+
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    // the keyboard is showing so resize the table's height
+    NSTimeInterval animationDuration =
+    [[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    CGRect frame = self.view.frame;
+    frame.origin.y -= 60;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = frame;
+    [UIView commitAnimations];
+}
+
 
 
 @end

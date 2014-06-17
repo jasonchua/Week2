@@ -12,12 +12,19 @@
 @interface FeedViewController ()
 
 @property (nonatomic) BOOL hasPresentedLogin;
-@property (strong, nonatomic) IBOutlet UIScrollView *feedScroll;
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
+@property (weak, nonatomic) IBOutlet UIImageView *feedImage;
+@property (weak, nonatomic) IBOutlet UIScrollView *feedScroll;
 
 @end
 
 @implementation FeedViewController
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    [self.feedScroll layoutIfNeeded];
+    self.feedScroll.contentSize = self.feedImage.bounds.size;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,6 +52,14 @@
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:rightButtonImage style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.rightBarButtonItem = rightButton;
     
+    self.indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.indicatorView.center = self.view.center;
+    [self.view addSubview:self.indicatorView];
+    
+    //init scrollview as hidden
+    self.feedScroll.hidden = YES;
+    
+    
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -58,19 +73,22 @@
     lvc.modalTransitionStyle = UIModalTransitionStyleCoverVertical; // Rises from below
     
     if (self.hasPresentedLogin) {
-        return;
+        if (self.hasPresentedLogin) {
+            [self.indicatorView startAnimating];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.indicatorView stopAnimating];
+                self.feedScroll.hidden = NO;
+            });
+        }
     }
+    
     else [self presentViewController:lvc animated:NO completion:nil];
     self.hasPresentedLogin = YES;
    
-    UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    indicatorView.center = self.view.center;
-    [self.view addSubview:indicatorView];
+
     
-    if (self.hasPresentedLogin) {
-        [self.indicatorView startAnimating];
-        [self.indicatorView performSelector:@selector(stopAnimating) withObject:nil afterDelay:2];
-    }
+
 
     
     
