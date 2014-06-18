@@ -5,7 +5,7 @@ Week 2 Homework
 
 -11 hours of work
 
-![ScreenShot](https://raw.githubusercontent.com/jasonchua/week1/master/Week2.gif)
+![ScreenShot](https://raw.githubusercontent.com/jasonchua/Week2/master/week2.gif)
 
 ✅ Tapping in the UITextField repositions the elements, as shown in the screenshots.
 ✅ Tapping anywhere dismisses the keyboard
