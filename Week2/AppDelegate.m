@@ -54,7 +54,7 @@
     [self.window makeKeyAndVisible];
     
     [[UINavigationBar appearance]
-     setBarTintColor:[UIColor colorWithRed:0.2059 green:0.3589 blue:0.5883 alpha:1.0000]];
+     setBarTintColor:[UIColor colorWithRed:0.2118 green:0.3686 blue:0.5686 alpha:1.0000]];
 
     NSDictionary *titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor],
                                           NSFontAttributeName: [UIFont boldSystemFontOfSize:14]};

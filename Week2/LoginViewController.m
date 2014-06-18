@@ -116,7 +116,7 @@
 
 - (IBAction)onTap:(id)sender {
     [self.view endEditing:YES];
-    [self updateValues];
+    //[self updateValues];
 }
 
 - (void)updateValues {
